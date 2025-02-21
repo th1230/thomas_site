@@ -1,0 +1,164 @@
+/* 定義主題相關的 CSS 變數 */
+:root {
+  --transition-speed: 0.6s;
+  --card-border-radius: 16px;
+  --card-bg: rgba(255, 255, 255, 0.15);
+  --card-border: 1px solid rgba(255, 255, 255, 0.25);
+  --card-blur: 8px;
+}
+
+/* 整個技能區塊：採用靜態的 conic-gradient 漸層背景，不再旋轉 */
+.skillsSection {
+  padding: 2rem;
+  text-align: center;
+  background: conic-gradient(from 0deg, #ff9a9e, #fad0c4, #fad0c4, #ff9a9e);
+  filter: saturate(1.2);
+}
+
+/* 區塊標題：自適應字體大小與文字陰影 */
+.title {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  margin-bottom: 2rem;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* 技能網格：利用 CSS Grid 與容器查詢調整卡片尺寸 */
+.skillsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+  container-type: inline-size;
+}
+
+@container (min-width: 600px) {
+  .skillsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+/* 卡片容器：設定 3D 視角、固定比例、並加入進場動畫 */
+.skillCard {
+  perspective: 1200px;
+  width: 180px;
+  aspect-ratio: 1;
+  position: relative;
+  overflow: hidden;
+  animation: cardFadeIn 1s ease-out;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 卡片內層：啟用 3D 翻轉 */
+.cardInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform var(--transition-speed) cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.skillCard:hover .cardInner {
+  transform: rotateY(180deg) scale(1.05);
+}
+
+/* 卡片正面與背面：採用玻璃質感設計 */
+.cardFront,
+.cardBack {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--card-border-radius);
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card-bg);
+  backdrop-filter: blur(var(--card-blur));
+  border: var(--card-border);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.cardFront {
+  transform: rotateY(0deg);
+  z-index: 2;
+}
+
+.cardBack {
+  transform: rotateY(180deg);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  z-index: 1;
+}
+
+/* 圖示效果：滑鼠懸停時旋轉並放大 */
+.icon {
+  font-size: 3rem;
+  transition: transform 0.3s ease;
+}
+
+.skillCard:hover .icon {
+  transform: rotate(20deg) scale(1.1);
+}
+
+/* 技能名稱 */
+.skillTitle {
+  text-align: center;
+}
+
+/* Ripple 擴散效果：使用點擊時的動畫效果 */
+.ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.skillCard:active .ripple {
+  animation: rippleEffect 0.6s ease-out;
+}
+
+@keyframes rippleEffect {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(15);
+  }
+}
+
+/* 額外的浮動動畫：滑鼠懸停時卡片會輕微上浮 */
+.skillCard:hover {
+  animation: floatCard 3s ease-in-out infinite;
+}
+
+@keyframes floatCard {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}

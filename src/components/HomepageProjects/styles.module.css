@@ -1,0 +1,8 @@
+.project{
+    transform: scale(1.1) translate3d(0, 0, 0);
+    will-change: transform;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    backface-visibility: hidden;
+    outline: 1px solid transparent;
+}
