@@ -55,62 +55,120 @@ export default function AllPostsList() {
     }
   });
 
-  // 過濾掉不需要顯示的類別，這裡排除 "Tutorial" 類別
-  const excludedCategories = ["Tutorial"];
+  const excludedCategories = ["未分類", "Learn"];
   const filteredNotes = notes.filter(
-    (note) => !excludedCategories.includes(note.label),
+    (note) => !excludedCategories.includes(note.category),
   );
+  const learnNotes = notes.filter((note) => note.category === "Learn");
 
   return (
-    <div className="p-4">
-      <h2
-        className="mb-4 text-2xl font-bold"
-        style={{ color: "var(--ifm-color-primary-darkest)" }}
-      >
-        所有筆記列表
-      </h2>
-      {filteredNotes.map((note) => (
-        <div
-          key={note.href}
-          className="mb-4 rounded-md bg-gray-600 p-4 shadow-md"
-          style={{
-            border: "2px solid var(--ifm-color-primary)", // 基底色邊框
-          }}
-        >
-          <a
-            href={note.href}
-            className="text-xl font-semibold hover:underline"
-            style={{ color: "var(--ifm-color-primary-darkest)" }} // 深色文字
+    <>
+      <div>
+        <div className="p-4">
+          <h2
+            className="mb-4 text-2xl font-bold"
+            style={{ color: "var(--ifm-color-primary-darkest)" }}
           >
-            {note.label}
-          </a>
-          <div className="mt-2 flex items-center">
-            <span
-              className="mr-2 rounded px-2 py-1 text-xs font-medium text-gray-700"
+            Learn 筆記列表
+          </h2>
+          <p className="mb-3 text-lg">
+            此分類主要用於提醒自己該如何學習，以及學習的重點。
+          </p>
+          {learnNotes.map((note) => (
+            <div
+              key={note.href}
+              className="mb-4 rounded-md bg-gray-600 p-4 shadow-md"
               style={{
-                backgroundColor: "var(--ifm-color-primary)",
-              }} // 分類徽章：基底色背景＋白色文字
+                border: "2px solid var(--ifm-color-primary)", // 基底色邊框
+              }}
             >
-              {note.category}
-            </span>
-            {note.date ? (
-              <span
-                className="text-sm"
-                style={{ color: "var(--ifm-color-primary-dark)" }}
+              <a
+                href={note.href}
+                className="text-xl font-semibold hover:underline"
+                style={{ color: "var(--ifm-color-primary-darkest)" }} // 深色文字
               >
-                {note.date}
-              </span>
-            ) : (
-              <span
-                className="text-sm"
-                style={{ color: "var(--ifm-color-primary-dark)" }}
-              >
-                無日期
-              </span>
-            )}
-          </div>
+                {note.label}
+              </a>
+              <div className="mt-2 flex items-center">
+                <span
+                  className="mr-2 rounded px-2 py-1 text-xs font-medium text-gray-700"
+                  style={{
+                    backgroundColor: "var(--ifm-color-primary)",
+                  }} // 分類徽章：基底色背景＋白色文字
+                >
+                  {note.category}
+                </span>
+                {note.date ? (
+                  <span
+                    className="text-sm"
+                    style={{ color: "var(--ifm-color-primary-dark)" }}
+                  >
+                    {note.date}
+                  </span>
+                ) : (
+                  <span
+                    className="text-sm"
+                    style={{ color: "var(--ifm-color-primary-dark)" }}
+                  >
+                    無日期
+                  </span>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
+      </div>
+
+      <div className="p-4">
+        <h2
+          className="mb-4 text-2xl font-bold"
+          style={{ color: "var(--ifm-color-primary-darkest)" }}
+        >
+          所有筆記列表
+        </h2>
+        {filteredNotes.map((note) => (
+          <div
+            key={note.href}
+            className="mb-4 rounded-md bg-gray-600 p-4 shadow-md"
+            style={{
+              border: "2px solid var(--ifm-color-primary)", // 基底色邊框
+            }}
+          >
+            <a
+              href={note.href}
+              className="text-xl font-semibold hover:underline"
+              style={{ color: "var(--ifm-color-primary-darkest)" }} // 深色文字
+            >
+              {note.label}
+            </a>
+            <div className="mt-2 flex items-center">
+              <span
+                className="mr-2 rounded px-2 py-1 text-xs font-medium text-gray-700"
+                style={{
+                  backgroundColor: "var(--ifm-color-primary)",
+                }} // 分類徽章：基底色背景＋白色文字
+              >
+                {note.category}
+              </span>
+              {note.date ? (
+                <span
+                  className="text-sm"
+                  style={{ color: "var(--ifm-color-primary-dark)" }}
+                >
+                  {note.date}
+                </span>
+              ) : (
+                <span
+                  className="text-sm"
+                  style={{ color: "var(--ifm-color-primary-dark)" }}
+                >
+                  無日期
+                </span>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
